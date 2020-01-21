@@ -31,6 +31,18 @@ public class MessageWall_and_RemoteLogin_Impl implements RemoteLogin, MessageWal
         }
         return null;
     }
+    
+    @Override
+    public UserAccess register(String usr, String passwd) {
+        userList.put(usr, passwd);
+        if(userList.containsKey(usr)){
+            if(userList.get(usr).equals(passwd)){
+                return new UserAccess_Impl(this, usr);
+            }
+            return null;
+        }
+        return null;
+    }
 
     @Override
     public void put(String user, String msg) {

@@ -34,7 +34,7 @@ public class ControllerServlet extends HttpServlet {
         
         String serv_path = request.getServletPath();
         HttpSession session = request.getSession();
-
+        System.out.println("serv_path : " + serv_path);
         if (serv_path.equals("/login.do")) {
             String login = request.getParameter("user");
             String password = request.getParameter("password");
@@ -50,7 +50,21 @@ public class ControllerServlet extends HttpServlet {
                 return "/error-no-user_access.html";
             }
         }
-        
+        else if (serv_path.equals("/register.do")) {
+            String login = request.getParameter("user");
+            String password = request.getParameter("password");
+            if(login!=null && password!=null){
+                UserAccess userAccess = getRemoteLogin().register(login, password);
+                if(userAccess!=null){
+                    session.setAttribute("useraccess", userAccess);
+                     return "/view/wallview.jsp";
+                }else{
+                    return "/error-no-user_access.html";
+                }
+            }else{
+                return "/error-no-user_access.html";
+            }
+        }
         else if (serv_path.equals("/put.do")) {
             UserAccess userAccess =(UserAccess) session.getAttribute("useraccess");
             if(userAccess==null){
